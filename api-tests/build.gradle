@@ -1,0 +1,115 @@
+plugins {
+    id 'base'
+    id "io.qameta.allure" version "2.5"
+}
+
+ext {
+    restAssuredVersion = '3.1.1'
+    jaksonCoreVersion = '2.9.6'
+}
+
+
+allure {
+    version = "$allureVersion"
+    
+    autoconfigure = true
+    configuration = 'compile'
+    
+    aspectjweaver = true
+    aspectjVersion = '1.8.10'
+    
+    resultsDir = file("${rootDir}/api-tests/build/allure-results")
+    reportDir = file("${rootDir}/api-tests/build/reports/allure-report")
+    useJUnit5 {
+        version = "${allureVersion}"
+    }
+    downloadLink = "https://dl.bintray.com/qameta/generic/io/qameta/allure/allure/$allureVersion/allure-${allureVersion}.zip"
+}
+
+
+dependencies {
+    compile(
+            ["io.rest-assured:rest-assured:$restAssuredVersion"],
+            ["io.rest-assured:json-path:$restAssuredVersion"],
+            ["io.rest-assured:xml-path:$restAssuredVersion"],
+            ["io.rest-assured:json-schema-validator:$restAssuredVersion"],
+            // Json Mapping Libraries
+            ['org.json:json:20180813'],
+            ["com.fasterxml.jackson.core:jackson-databind:$jaksonCoreVersion"],
+            ["com.fasterxml.jackson.core:jackson-core:$jaksonCoreVersion"],
+            ["com.google.code.gson:gson:2.8.5"],
+            // Allure
+            ["io.qameta.allure:allure-rest-assured:${allureVersion}"]
+    )
+    compile group: 'org.jsonschema2pojo', name: 'jsonschema2pojo-gradle-plugin', version: '0.4.21'
+}
+
+
+
+import io.qameta.allure.gradle.task.AllureReport
+task allureAggregatedReport(type: AllureReport) {
+    allure.resultsDir
+}
+
+
+// Enabled Native JUnit 5 support for Gradle 4.6+
+test {
+    //useJUnitPlatform()
+    useJUnitPlatform{
+        includeTags 'users', 'catalog'
+        excludeTags 'slow'
+        includeEngines 'junit-jupiter'
+        excludeEngines 'junit-vintage'
+    }
+    failFast = true
+    testLogging {
+        showStandardStreams = true
+        events 'PASSED', 'FAILED', 'SKIPPED'
+    }
+    beforeSuite { desc ->
+        def sep = '*' * 20
+        println "$sep\n" + "Starting ${desc} tests" + "\n$sep"
+    }
+    afterSuite { desc, result ->
+        if (!desc.parent) {
+            println "\nTest result: ${result.resultType}"
+            println "Test summary: ${result.testCount} tests,\n " +
+                    "succeeded: ${result.successfulTestCount},\n " +
+                    "failed: ${result.failedTestCount},\n " +
+                    "skipped: ${result.skippedTestCount}"
+        }
+    }
+    //System variables and properties
+    // ...
+    systemProperty 'junit.jupiter.conditions.deactivate', '*'
+    systemProperties = [
+            'junit.jupiter.extensions.autodetection.enabled': 'true',
+            'junit.jupiter.testinstance.lifecycle.default' : 'per_class',
+    ]
+    // Also you can configure this properties in /src/tests/ersource/junit-platform.properties file
+    // ...
+}.finalizedBy allureAggregatedReport
+
+
+
+clean.doFirst {
+    delete "${rootDir}/api-tests/allure-results"
+    delete "${rootDir}/api-tests/allure-report"
+    delete "${rootDir}/api-tests/target"
+    delete "${rootDir}/api-tests/out"
+
+}
+
+task copyToLib(type: Copy) {
+    into "$buildDir/output/libs"
+    from configurations.runtime
+}
+
+task testJar(type: Jar) {
+    classifier = 'tests'
+    from sourceSets.test.output
+}
+
+
+build.dependsOn copyToLib , testJar
+

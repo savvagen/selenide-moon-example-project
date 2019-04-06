@@ -1,0 +1,6 @@
+<aspectj>
+    <aspects>
+        <aspect name="com.example.aspect.LogStepAspect"/>
+        <aspect name="com.example.aspect.AllureStepAspect"/>
+    </aspects>
+</aspectj>

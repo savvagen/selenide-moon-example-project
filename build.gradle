@@ -1,0 +1,127 @@
+plugins {
+    id 'java'
+    id 'idea'
+    id 'io.franzbecker.gradle-lombok' version '2.1'
+}
+
+ext {
+    junitJupiterVersion = '5.4.0'
+    junitPlatformVersion = '1.4.0'
+    allureVersion = '2.7.0'
+}
+
+
+repositories {
+    jcenter()
+    mavenCentral()
+    mavenLocal()
+}
+
+
+allprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+
+    repositories {
+        jcenter()
+        mavenCentral()
+        mavenLocal()
+    }
+
+
+    dependencies {
+        testCompileOnly('junit:junit:4.12')
+        implementation(
+                "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion",   // JUnit Jupiter API for writing tests and extensions.
+                "org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion" // Support for parameterized tests in JUnit Jupiter.
+        )
+        compile(
+                "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion",
+                "org.junit.vintage:junit-vintage-engine:$junitJupiterVersion",
+                "org.junit.platform:junit-platform-launcher:$junitPlatformVersion",
+                "org.junit.platform:junit-platform-runner:$junitPlatformVersion",
+                // Junit Platform dependences
+                ["org.junit.platform:junit-platform-engine:$junitPlatformVersion"],
+                ["org.junit.platform:junit-platform-console:$junitPlatformVersion"],
+                ["org.junit.platform:junit-platform-commons:$junitPlatformVersion"],
+                ["org.junit.platform:junit-platform-suite-api:$junitPlatformVersion"],
+                // Allure for Juni5
+                ['io.qameta.allure:allure-gradle:2.5'],
+                ["io.qameta.allure:allure-junit5:$allureVersion"]
+        )
+        // Logging
+        compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+        compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+        compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+        // Aspects
+        compile group: 'org.aspectj', name: 'aspectjrt', version: '1.9.2'
+        // Junit Platform console standalone
+        compile group: 'org.junit.platform', name: 'junit-platform-console-standalone', version: '1.4.0'
+
+    }
+
+
+    wrapper {
+        gradleVersion = '5.2'
+    }
+
+
+}
+
+
+subprojects {
+
+    buildscript {
+        repositories {
+            jcenter()
+            maven {
+                url "https://plugins.gradle.org/m2/"
+            }
+        }
+        dependencies {
+            classpath "io.franzbecker:gradle-lombok:2.1"
+        }
+    }
+
+    apply plugin: "io.franzbecker.gradle-lombok"
+
+    repositories {
+        jcenter()
+        mavenCentral()
+        mavenLocal()
+    }
+
+    dependencies {
+        compile(
+                //Helper assertion library
+                // https://github.com/npryce/hamkrest
+                ["com.natpryce:hamkrest:1.6.0.0"],
+                ["com.github.javafaker:javafaker:0.16"]
+        )
+        // If lombok plugin is not used
+        // compile "org.projectlombok:lombok:1.18.2"
+        compile group: 'org.jsonschema2pojo', name: 'jsonschema2pojo-gradle-plugin', version: '0.4.21'
+    }
+
+
+
+}
+
+/*
+project(':api-tests'){
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+}
+*/
+
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+

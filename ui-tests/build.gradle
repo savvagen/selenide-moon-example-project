@@ -1,0 +1,54 @@
+plugins {
+    id "io.qameta.allure" version "2.5"
+}
+
+ext {
+    selenideVersion = "5.0.0"
+}
+
+allure {
+    version = "$allureVersion"
+    autoconfigure = true
+    configuration = 'compile'
+    aspectjweaver = true
+    aspectjVersion = '1.8.10'
+    resultsDir = file("${rootDir}/ui-tests/build/allure-results")
+    reportDir = file("${rootDir}/ui-tests/build/reports/allure-report")
+    useJUnit5 {
+        version = "${allureVersion}"
+    }
+    downloadLink = "https://dl.bintray.com/qameta/generic/io/qameta/allure/allure/$allureVersion/allure-${allureVersion}.zip"
+}
+
+
+
+dependencies {
+    compile project(":api-tests")
+    compile (
+            ["com.codeborne:selenide:${selenideVersion}"],
+            ["io.qameta.allure:allure-selenide:$allureVersion"]
+    )
+}
+
+
+import io.qameta.allure.gradle.task.AllureReport
+task allureAggregatedReport(type: AllureReport) {
+    allure.resultsDir
+}
+
+
+test {
+    //useJUnitPlatform()
+    useJUnitPlatform{
+        includeTags 'login-ui', 'catalog-ui'
+        excludeTags 'Example'
+        includeEngines 'junit-jupiter'
+        //excludeEngines 'junit-vintage'
+    }
+    failFast = true
+    testLogging {
+        events 'PASSED', 'FAILED', 'SKIPPED'
+        exceptionFormat = 'full'
+        showStandardStreams = true
+    }
+}.finalizedBy allureAggregatedReport

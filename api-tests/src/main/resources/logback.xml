@@ -1,0 +1,49 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
+
+
+<!--
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%d [%thread] %level %logger - %m%n</Pattern>
+        </layout>
+    </appender>
+    <root level="${root-level:-INFO}">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>-->
+
+
+
+<!--
+
+<configuration>
+&lt;!&ndash; Insert the current time formatted as "yyyyMMdd'T'HHmmss" under
+     the key "bySecond" into the logger context. This value will be
+     available to all subsequent configuration elements. &ndash;&gt;
+<timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
+
+<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    &lt;!&ndash; use the previously created timestamp to create a uniquely
+         named log file &ndash;&gt;
+    <file>/logs/testFile.log</file>
+    &lt;!&ndash;<file>log-${bySecond}.txt</file>&ndash;&gt;
+    <encoder>
+        <pattern>%logger{35} - %msg%n</pattern>
+    </encoder>
+</appender>
+
+<root level="DEBUG">
+    <appender-ref ref="FILE" />
+</root>
+</configuration>-->
