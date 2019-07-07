@@ -4,6 +4,8 @@ import com.example.TestBase;
 import com.example.extensions.dependency_management.WebserviceExtension;
 import com.example.extensions.listener_extensions.TestListenerExtension;
 import com.example.extensions.listener_extensions.TestWatcherExtension;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import com.example.models.User;
 import com.example.pages.forms.LoginModal;
 import com.example.services.UserService;
@@ -11,7 +13,9 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.jupiter.params.ParameterizedTest;
 
+import java.lang.reflect.Method;
 import java.nio.file.Path;
 
 import static com.codeborne.selenide.Condition.text;
@@ -62,9 +66,7 @@ public class TestExtensionsExample extends TestBase {
     }
 
 
-
     @Test
-    @Order(1)
     void shouldLoginWithExistingCustomer(){
         mainPage.open().loginButton.click();
         mainPage.loginWith(user);
@@ -81,6 +83,7 @@ public class TestExtensionsExample extends TestBase {
         LoginModal.title.shouldBe(visible).shouldHave(text("Customer Login"));
     }
 
+
     @Test
     @Order(3)
     void shouldNotLoginWithInvalidCredentials(){
@@ -90,4 +93,10 @@ public class TestExtensionsExample extends TestBase {
         mainPage.logoutButton.shouldNotBe(visible);
     }
 
+
 }
+
+
+
+
+
