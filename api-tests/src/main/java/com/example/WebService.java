@@ -14,7 +14,7 @@ public abstract class WebService {
     public WebService(String basePath){
         this.requestSpec = RestAssured.given().relaxedHTTPSValidation()
                 .contentType(defaultContentType)
-                .filters(new RequestLoggingFilter(), new ResponseLoggingFilter())
+                //.filters(new RequestLoggingFilter(), new ResponseLoggingFilter())
                 .basePath(basePath);
     }
 

@@ -2,24 +2,39 @@ package com.example.ui_tests;
 
 import com.example.TestBase;
 import com.example.extensions.dependency_management.WebserviceExtension;
+import com.example.extensions.listener_extensions.TestListenerExtension;
+import com.example.extensions.listener_extensions.TestWatcherExtension;
 import com.example.models.User;
 import com.example.pages.forms.LoginModal;
 import com.example.services.UserService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
 
-import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.example.extensions.dependency_management.WebserviceExtension.*;
-import static com.example.pages.forms.LoginModal.*;
+import static org.junit.jupiter.api.MethodOrderer.*;
 
-//@Execution(ExecutionMode.CONCURRENT)
+
 @ExtendWith(WebserviceExtension.class)
-// Adding order execution for the tests
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class LoginTests extends TestBase {
+
+@ExtendWith(TestWatcherExtension.class)
+
+@TestMethodOrder(OrderAnnotation.class)
+
+public class TestExtensionsExample extends TestBase {
+
+    // https://medium.com/@BillyKorando/whats-new-in-junit-5-4-7ce6870a9caa
+    @RegisterExtension
+    @Order(3)
+    static TestListenerExtension extensionA = new TestListenerExtension("A");
+    @RegisterExtension
+    @Order(2)
+    static TestListenerExtension extensionB = new TestListenerExtension("B");
+    @RegisterExtension
+    @Order(1)
+    static TestListenerExtension extensionC = new TestListenerExtension("C");
 
 
 
@@ -29,10 +44,6 @@ public class LoginTests extends TestBase {
             .setFirstName("Savva")
             .setLastName("Genchevskiy")
             .setEmail("test@gmail.com").setPassword("hello.world");
-
-
-
-
 
 
     @BeforeAll
@@ -56,10 +67,10 @@ public class LoginTests extends TestBase {
 
     @Test
     @Order(1)
-    void positiveLogin(){
+    void shouldLoginWithExistingCustomer(){
         mainPage.open().loginButton.click();
         mainPage.loginWith(user);
-        sucessMsg.shouldBe(visible).shouldHave(text("Login successful."));
+        LoginModal.sucessMsg.shouldBe(visible).shouldHave(text("Login successful."));
         mainPage.userButton.shouldBe(visible).shouldHave(text("Logged in as Savva Genchevskiy"));
         mainPage.logoutButton.shouldBe(visible);
     }
@@ -69,7 +80,7 @@ public class LoginTests extends TestBase {
     void shouldOpenLoginFormWithLoginButton(){
         mainPage.open().loginButton.click();
         mainPage.loginModal.shouldBe(visible);
-        title.shouldBe(visible).shouldHave(text("Customer Login"));
+        LoginModal.title.shouldBe(visible).shouldHave(text("Customer Login"));
     }
 
     @Test
@@ -77,9 +88,8 @@ public class LoginTests extends TestBase {
     void shouldNotLoginWithInvalidCredentials(){
         mainPage.open().loginButton.click();
         mainPage.loginWith(new User().setUsername("test").setPassword("123"));
-        errorMsg.shouldBe(visible).shouldHave(text("Invalid login credentials."));
+        LoginModal.errorMsg.shouldBe(visible).shouldHave(text("Invalid login credentials."));
         mainPage.logoutButton.shouldNotBe(visible);
     }
-
 
 }

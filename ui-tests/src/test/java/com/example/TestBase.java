@@ -23,9 +23,10 @@ public class TestBase {
     static void setUp(){
         SelenideLogger.addListener("allureSelenide", new AllureSelenide());
 
-        Configuration.baseUrl = "http://35.238.95.192";
-        Configuration.browserSize="1920x768";
-        RestAssured.baseURI = "http://35.238.95.192";
+        Configuration.baseUrl = "http://104.154.163.189";
+        Configuration.browserSize="1376x768";
+
+        RestAssured.baseURI = "http://104.154.163.189";
 
 
         //setWebDriver(new WebdriverProvider().createDriver(new DesiredCapabilities()));
