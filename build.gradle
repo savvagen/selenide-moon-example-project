@@ -45,6 +45,7 @@ allprojects {
                 ["org.junit.platform:junit-platform-console:$junitPlatformVersion"],
                 ["org.junit.platform:junit-platform-commons:$junitPlatformVersion"],
                 ["org.junit.platform:junit-platform-suite-api:$junitPlatformVersion"],
+                ["org.junit.platform:junit-platform-testkit:$junitPlatformVersion"],
                 // Allure for Junit5
                 ['io.qameta.allure:allure-gradle:2.5'],
                 ["io.qameta.allure:allure-junit5:$allureVersion"]

@@ -1,4 +1,4 @@
-package com.exmple.api_tests;
+package com.exmple;
 
 import com.exmple.api_tests.CatalogServiceTests;
 import com.exmple.api_tests.UserServiceTests;

@@ -31,7 +31,7 @@ public class TestBase {
 
     @BeforeAll
     static void setUpTests(){
-        RestAssured.baseURI = "http://35.238.95.192/";
+        RestAssured.baseURI = "http://104.154.163.189/";
         userService = new UserService("/");
         cardService = new CardService("/cards");
         catalogService = new CatalogService("/");

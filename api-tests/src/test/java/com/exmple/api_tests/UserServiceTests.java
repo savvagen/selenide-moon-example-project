@@ -36,6 +36,7 @@ import static org.hamcrest.Matchers.*;
 //      @Test
 //      shouldRegisterUser(User user) {
 //      }
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //@ExtendWith(RandomUserParameterResolver.class)
 
 // Register RandomUser parameter extension with @ExtendWith(RandomUserParameterExtension.class) to add parameters:
@@ -46,6 +47,7 @@ import static org.hamcrest.Matchers.*;
 //   2)
 //      @Test
 //      shouldRegisterUser(@RandomUser(locale = Locale.RUSSIA) User user) {}
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //@ExtendWith(RandomUserParameterResolver.class)
 @ExtendWith(RandomUserParameterExtension.class)
 public class UserServiceTests extends TestBase {

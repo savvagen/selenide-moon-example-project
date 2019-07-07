@@ -1,5 +1,7 @@
-package com.example.ui_tests;
+package com.example;
 
+import com.example.ui_tests.LoginTests;
+import com.example.ui_tests.RegistrationTests;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.platform.runner.JUnitPlatform;

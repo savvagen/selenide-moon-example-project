@@ -18,7 +18,6 @@ import static com.example.pages.forms.LoginModal.*;
 //@Execution(ExecutionMode.CONCURRENT)
 @ExtendWith(WebserviceExtension.class)
 // Adding order execution for the tests
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class LoginTests extends TestBase {
 
 
@@ -55,7 +54,6 @@ public class LoginTests extends TestBase {
 
 
     @Test
-    @Order(1)
     void positiveLogin(){
         mainPage.open().loginButton.click();
         mainPage.loginWith(user);
@@ -65,7 +63,6 @@ public class LoginTests extends TestBase {
     }
 
     @Test
-    @Order(2)
     void shouldOpenLoginFormWithLoginButton(){
         mainPage.open().loginButton.click();
         mainPage.loginModal.shouldBe(visible);
@@ -73,7 +70,6 @@ public class LoginTests extends TestBase {
     }
 
     @Test
-    @Order(3)
     void shouldNotLoginWithInvalidCredentials(){
         mainPage.open().loginButton.click();
         mainPage.loginWith(new User().setUsername("test").setPassword("123"));

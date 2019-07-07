@@ -38,6 +38,10 @@ public class User {
         return new Builder();
     }
 
+    public static Builder Builder(){
+        return new Builder();
+    }
+
     public static class Builder {
 
         private String firstName;

@@ -26,10 +26,7 @@ public class WebdriverProvider implements WebDriverProvider {
         dc.setJavascriptEnabled(true);
         RemoteWebDriver driver = null;
         try {
-            driver = new RemoteWebDriver(
-                    URI.create("http://35.226.18.156:4444/wd/hub").toURL(), // http://209.97.181.33:4444/wd/hub
-                    dc
-            );
+            driver = new RemoteWebDriver(URI.create("http://35.226.18.156:4444/wd/hub").toURL(), dc);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

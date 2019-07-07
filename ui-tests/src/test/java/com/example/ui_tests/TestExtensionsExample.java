@@ -10,6 +10,9 @@ import com.example.services.UserService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
+import org.junit.jupiter.api.io.TempDir;
+
+import java.nio.file.Path;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -37,13 +40,8 @@ public class TestExtensionsExample extends TestBase {
     static TestListenerExtension extensionC = new TestListenerExtension("C");
 
 
-
     @RegisterExtension
-    public static User user = new User()
-            .setUsername("savva")
-            .setFirstName("Savva")
-            .setLastName("Genchevskiy")
-            .setEmail("test@gmail.com").setPassword("hello.world");
+    public static User user = new User().setUsername("savva").setFirstName("Savva").setLastName("Genchevskiy").setEmail("test@gmail.com").setPassword("hello.world");
 
 
     @BeforeAll

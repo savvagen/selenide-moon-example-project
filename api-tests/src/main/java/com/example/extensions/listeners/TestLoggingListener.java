@@ -19,7 +19,7 @@ public class TestLoggingListener implements BeforeAllCallback,
 
     @Override
     public void afterAll(ExtensionContext context) throws Exception {
-        log.info("\n" + separator + "\nFinished tests \'" + context.getRequiredTestClass() + "\'.\n" + separator);
+        log.info("\n" + separator + "\n <<<<<<<<< Finished tests \'" + context.getRequiredTestClass() + "\'. >>>>>>>>>>>>\n" + separator);
     }
 
     @Override
@@ -29,12 +29,12 @@ public class TestLoggingListener implements BeforeAllCallback,
 
     @Override
     public void beforeTestExecution(ExtensionContext context) throws Exception {
-        log.info("\n" + separator + "\nStarting \'" + context.getDisplayName() + "\' test.\n" + separator);
+        log.info("\n" + separator + "\n <<<<<<<<< Starting \'" + context.getDisplayName() + "\' test. >>>>>>>>>>>>\n" + separator);
     }
 
     @Override
     public void afterTestExecution(ExtensionContext context) throws Exception {
-        log.info("\n" + separator + "\nFinishing \'" + context.getDisplayName() + "\' test.\n" + separator);
+        log.info("\n" + separator + "\n <<<<<<<<< Finishing \'" + context.getDisplayName() + "\' test.\n" + separator);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class TestLoggingListener implements BeforeAllCallback,
 
     @Override
     public void beforeAll(ExtensionContext context) throws Exception {
-        log.info("\n" + separator + "\nStarting tests \'" + context.getRequiredTestClass() + "\'.\n" + separator);
+        log.info("\n" + separator + "\n <<<<<<<<< Starting tests \'" + context.getRequiredTestClass() + "\'. >>>>>>>>>>>>\n" + separator);
     }
 
 
