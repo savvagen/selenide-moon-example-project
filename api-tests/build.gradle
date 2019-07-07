@@ -54,12 +54,15 @@ task allureAggregatedReport(type: AllureReport) {
 
 // Enabled Native JUnit 5 support for Gradle 4.6+
 test {
-    //useJUnitPlatform()
-    useJUnitPlatform{
+    useJUnitPlatform()
+    /*useJUnitPlatform{
         includeTags 'users', 'catalog'
         excludeTags 'slow'
         includeEngines 'junit-jupiter'
         excludeEngines 'junit-vintage'
+    }*/
+    filter {
+        includeTestsMatching "com.example.api_tests.Suite"
     }
     failFast = true
     testLogging {

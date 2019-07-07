@@ -5,8 +5,8 @@ plugins {
 }
 
 ext {
-    junitJupiterVersion = '5.4.0'
-    junitPlatformVersion = '1.4.0'
+    junitJupiterVersion = '5.4.1'
+    junitPlatformVersion = '1.4.1'
     allureVersion = '2.7.0'
 }
 
@@ -33,20 +33,19 @@ allprojects {
     dependencies {
         testCompileOnly('junit:junit:4.12')
         implementation(
-                "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion",   // JUnit Jupiter API for writing tests and extensions.
-                "org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion" // Support for parameterized tests in JUnit Jupiter.
-        )
-        compile(
-                "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion",
+                // JUnit Jupiter (Aggregator)adding junit-jupiter-engine + junit-jupiter-api
+                "org.junit.jupiter:junit-jupiter:$junitJupiterVersion",
+                // Junit Vintage - enables running Junit4 tests
                 "org.junit.vintage:junit-vintage-engine:$junitJupiterVersion",
+                // Junit Platform runner
                 "org.junit.platform:junit-platform-launcher:$junitPlatformVersion",
                 "org.junit.platform:junit-platform-runner:$junitPlatformVersion",
-                // Junit Platform dependences
+                // Junit Platform dependencies
                 ["org.junit.platform:junit-platform-engine:$junitPlatformVersion"],
                 ["org.junit.platform:junit-platform-console:$junitPlatformVersion"],
                 ["org.junit.platform:junit-platform-commons:$junitPlatformVersion"],
                 ["org.junit.platform:junit-platform-suite-api:$junitPlatformVersion"],
-                // Allure for Juni5
+                // Allure for Junit5
                 ['io.qameta.allure:allure-gradle:2.5'],
                 ["io.qameta.allure:allure-junit5:$allureVersion"]
         )
@@ -123,5 +122,3 @@ project(':api-tests'){
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
-
-

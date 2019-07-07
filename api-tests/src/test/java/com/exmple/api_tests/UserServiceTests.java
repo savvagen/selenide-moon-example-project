@@ -1,4 +1,4 @@
-package com.exmple.tests;
+package com.exmple.api_tests;
 
 import com.example.extensions.listeners.AllureLoggingListener;
 import com.example.extensions.listeners.TestLoggingListener;
@@ -10,6 +10,7 @@ import com.example.models.User;
 import com.exmple.TestBase;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
+import io.restassured.RestAssured;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -24,8 +25,6 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 import static org.hamcrest.Matchers.*;
 
 @Tag("users")
-@Execution(ExecutionMode.SAME_THREAD)
-
 @Feature("User Service Tests")
 @ExtendWith({AllureLoggingListener.class, TestLoggingListener.class})
 // Register RandomUser parameter resolver to class: @ExtendWith(RandomUserParameterResolver.class) to add parameters:
@@ -57,6 +56,7 @@ public class UserServiceTests extends TestBase {
 
     @BeforeAll
     static void setUp(@RandomUser(locale = Locale.UKRAINE) User user){
+        RestAssured.baseURI = "http://34.66.235.15/";
         fakeUser = user;
         userService.registerUser(admin);
     }

@@ -1,4 +1,4 @@
-package com.exmple.tests;
+package com.exmple.api_tests;
 
 
 import com.example.extensions.listeners.AllureLoggingListener;
@@ -7,9 +7,11 @@ import com.example.models.Product;
 import com.exmple.TestBase;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Story;
+import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,8 +26,6 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Tag("catalog")
-@Execution(ExecutionMode.SAME_THREAD)
-
 @Feature("Catalog Service Tests")
 @ExtendWith({AllureLoggingListener.class, TestLoggingListener.class})
 public class CatalogServiceTests extends TestBase {
@@ -35,6 +35,7 @@ public class CatalogServiceTests extends TestBase {
 
     @BeforeAll
     static void setUp(){
+        RestAssured.baseURI = "http://35.225.242.154/";
         testProduct = new Product().setId("03fef6ac-1896-4ce8-bd69-b798f85c6e0b")
                 .setName("Holy")
                 .setDescription("Socks fit for a Messiah. You too can experience walking in water with these special edition beauties. Each hole is lovingly proggled to leave smooth edges. The only sock approved by a higher power.")
